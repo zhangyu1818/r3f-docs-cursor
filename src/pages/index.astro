@@ -1,5 +1,10 @@
 ---
-
+const pages = await Astro.glob('../pages/**/*.{md,mdx}');
+const pageLinks = pages.map(page => {
+  const href = page.url || page.file.replace(/^.*\/pages/, '').replace(/\.(md|mdx)$/, '');
+  const title = page.frontmatter.title || href.split('/').pop();
+  return { href, title };
+});
 ---
 
 <html lang="en">
@@ -8,9 +13,14 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>React three fiber docs</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<h1>React three fiber(r3f) docs</h1>
+		<ul>
+			{pageLinks.map(({ href, title }) => (
+				<li><a href={href}>{title}</a></li>
+			))}
+		</ul>
 	</body>
 </html>
